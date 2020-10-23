@@ -1,0 +1,28 @@
+version: "3.4"
+
+services:
+  localstack:
+    image: localstack/localstack:0.11.2
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - HOSTNAME_EXTERNAL=localhost
+    volumes:
+      - ./localstack:/docker-entrypoint-initaws.d/
+  
+  crushftp:
+    image: shokinn/crushftp:9-v9.3.1--v1.1.0
+    container_name: crushftp
+    ports:
+      - "21:21"
+      - "443:443"
+      - "2222:2222"
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      - CRUSH_ADMIN_USER=admin
+      - CRUSH_ADMIN_PASSWORD=admin
+      - CRUSH_ADMIN_PROTOCOL=http
+      - CRUSH_ADMIN_PORT=8080
